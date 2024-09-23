@@ -1,30 +1,28 @@
-# FastAPI-ReactNativeML
-Welcome to the FastAPI-ReactNativeML repository! This project combines the power of FastAPI for building a robust backend API with React Native for developing the mobile frontend. 
-Harness the capabilities of a machine learning model to enhance your mobile application's intelligence
+# kittyCara AI
+Kittycara AI is a mobile app designed to assist adolescent girls and their caretakers in diagnosing potential menstrual disorders based on the symptoms they provide. The app utilizes OpenAI API and features a friendly pet cat interface to make the experience approachable and user-friendly. It's especially useful in Sub-Saharan Africa, where cultural stigmas and a lack of gynecological education often prevent girls from seeking timely medical care.
 
-### Content
-. FastAPI API: Learn how to create a high-performance API for your React Native mobile application using FastAPI, a swift Python framework.
-. React Native Mobile App: Explore the React Native implementation for the frontend of your mobile application.
-. Machine Learning Model: Integrate a machine learning model into your application for smart and personalized user experiences.
-. Tutorials and Examples: Step-by-step tutorials and code examples to guide you through the development process.
+Features
+.**AI-Powered Symptom Diagnosis**: Kittycara AI leverages the OpenAI API to assess menstrual patterns and symptoms, offering insights into potential disorders.
+.**User-Friendly Pet Interface**: The app is designed as a pet cat to create a warm and engaging experience for adolescent users.
+. **Focus on Sub-Saharan Africa**: Tackles the challenges related to cultural stigma, embarrassment, and lack of education around menstruation and gynecological care.
 
 ### Screeshot
 
 <div style="display: flex; align-items: center;">
     <div style="flex: 33.33%; text-align: center;">
         <p>Screenshots home</p>
-        <img src="images/sep1.jpeg" alt="Top" width="90%"/>
-        <img src="images/ml.jpeg" alt="Top" width="90%"/>
-        <img src="images/not2.jpeg" alt="Top" width="90%"/>
+        <img src="images/10.jpeg" alt="Top" width="90%"/>
+        <img src="images/11.jpeg" alt="Top" width="90%"/>
+        <img src="images/2.jpeg" alt="Top" width="90%"/>
     </div>
     <div style="flex: 33.33%; text-align: center;">
-        <p>Sepsis</p>
-        <img src="images/form2.jpeg" alt="Middle" width="90%"/>
+        <p>Sign up</p>
+        <img src="images/4.jpeg" alt="Middle" width="90%"/>
         </div>
     <div style="flex: 33.33%; text-align: center;">
-        <p>Test Prediction</p>
-        <img src="images/posi3.jpeg" alt="Middle" width="90%"/>
-        <img src="images/neg3.jpeg" alt="Middle" width="90%"/>
+        <p>Log in and Welcome</p>
+        <img src="images/51.jpeg" alt="Middle" width="90%"/>
+        <img src="images/5.jpeg" alt="Middle" width="90%"/>
         </div>
 </div>
 ## How to Use This Repository:
@@ -32,12 +30,30 @@ Harness the capabilities of a machine learning model to enhance your mobile appl
 - Clone this repository to your local machine.
 - npm install.
 - npx expo start
-- Implement the FastAPI backend and integrate the machine learning model for enhanced functionality.
+
 Explore code examples for an in-depth understanding of each development phase.
 
 ## Prerequisites:
+## Getting Started
+Prerequisites
+To run this project, you need to have the following installed:
 
+Node.js
+npm or yarn
+Expo CLI
+An OpenAI API Key (if you haven't already, sign up for access at OpenAI)
 Basic knowledge of JavaScript and React Native.
 Familiarity with Python and setting up FastAPI.
 Contributions:
 Contributions are encouraged! Whether it's bug fixes, new features, or improvements, feel free to open a pull request.
+
+- Clone :
+
+        https://github.com/bambadij/kittycaraApp.git
+        
+        cd kittycaraApp
+
+- lunch : 
+
+        npm install or yarn
+        npx expo start

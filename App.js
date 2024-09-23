@@ -58,7 +58,7 @@ export default function App() {
            options={{ title: 'Information', animation: 'slide_from_bottom' }}
           name="Info" component={Info} />
             <Stack.Screen 
-           options={{ title: 'Interview with kittycara AI', animation: 'slide_from_bottom' }}
+           options={{ title: '', animation: 'slide_from_bottom' }}
           name="ChatPage" component={ChatPage} />
           <Stack.Screen
             options={{ title: 'Terms ', animation: 'slide_from_bottom' }}

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 60,
-    height: 100,
+    height: 125,
     marginRight: 10, // Ajouter un espace entre le logo et le titre
   },
   title: {

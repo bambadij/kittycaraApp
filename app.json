@@ -7,7 +7,7 @@
     "icon": "./assets/cat.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/cat.png",
+      "image": "./assets/kittyload.png",
       "resizeMode": "contain",
       "backgroundColor": "#353b8f"
     },

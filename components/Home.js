@@ -11,22 +11,12 @@ const OnboardingScreen = ({ navigation }) => {
   const scrollViewRef = useRef(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  const loadFonts = async () => {
-    await Font.loadAsync({ 
-      'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'), // Assurez-vous que le chemin est correct
-      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
-    });
-    setFontsLoaded(true);
-  };
-
-  useEffect(() => {
-    loadFonts();
-  }, []);
+ 
   const pages = [
     {
-      image: require('../assets/cara/cara1.png'),
+      image: require('../assets/kittyhome3.png'),
       title: 'Let\'s get started! ',
-      description: 'Confused by your menstrual symptoms?Kittycara will offer you immediat insihts and practical advice taillored to your unique health need.',
+      description: 'Confused by your menstrual symptoms? Kittycara will offer you immediate insights and practical advice taillored to your unique health needs.',
     },
     {
       image: require('../assets/cara/caraAI4remove.png'),
@@ -59,7 +49,17 @@ const OnboardingScreen = ({ navigation }) => {
       navigation.navigate('Login');
     }
   };
-
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      // 'Poppins-Bold': require('../assets/fonts/Playpen_Sans/static/Poppins-Bold-Bold.ttf'), // Assurez-vous que le chemin est correct
+      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
+    });
+    setFontsLoaded(true);
+  };
+ 
+  useEffect(() => {
+    loadFonts();
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -72,8 +72,12 @@ const OnboardingScreen = ({ navigation }) => {
       >
         {pages.map((page, index) => (
           <View key={index} style={styles.page}>
+            <>
             <Image source={page.image} style={styles.stepImage} resizeMode="cover" />
+            </>
+            <>
             <Text style={styles.title}>{page.title}</Text>
+            </>
             <Text style={styles.description}>{page.description}</Text>
             
             {index === pages.length - 1 && (
@@ -125,26 +129,24 @@ const styles = {
   },
   stepImage: {
     width: width * 0.8,
-    height: width * 0.75,
+    height: width * 0.8,
     // marginBottom: 1,
   },
   title: {
     fontSize: 20,
-    // fontWeight: 'bold',
-     fontFamily: 'PlaypenSans',
+    fontFamily: 'Poppins-Bold',
     marginBottom: 6,
     marginTop:-25,
     textAlign: 'center',
     color:'#FFF',
-    // fontFamily:'ronde'
 
   },
   description: {
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 20,
     color:'#FFF',
-     fontFamily: 'PlaypenSans'
+    fontFamily: 'Poppins-Bold'
 
   },
   iconContainer: {
@@ -160,7 +162,7 @@ const styles = {
     marginBottom: 30,
   },
   paginationDot: {
-    width: 10,
+    width: 10, 
     height: 10,
     borderRadius: 5,
     marginHorizontal: 5,
@@ -182,7 +184,7 @@ const styles = {
     fontSize: 18,
     alignItems: 'center',
     justifyContent: 'center',
-     fontFamily: 'PlaypenSans'
+     fontFamily: 'Poppins-Bold'
     // fontWeight: 'bold',
   },
 };
