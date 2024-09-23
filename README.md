@@ -6,23 +6,23 @@ Features
 .**User-Friendly Pet Interface**: The app is designed as a pet cat to create a warm and engaging experience for adolescent users.
 . **Focus on Sub-Saharan Africa**: Tackles the challenges related to cultural stigma, embarrassment, and lack of education around menstruation and gynecological care.
 
-### Screeshot
+### Screenshot
 
 <div style="display: flex; align-items: center;">
     <div style="flex: 33.33%; text-align: center;">
         <p>Screenshots home</p>
-        <img src="images/10.jpeg" alt="Top" width="90%"/>
-        <img src="images/11.jpeg" alt="Top" width="90%"/>
-        <img src="images/2.jpeg" alt="Top" width="90%"/>
+        <img src="assets/images/10.jpeg" alt="Top" width="90%"/>
+        <img src="assets/images/11.jpeg" alt="Top" width="90%"/>
+        <img src="assets/images2.jpeg" alt="Top" width="90%"/>
     </div>
     <div style="flex: 33.33%; text-align: center;">
         <p>Sign up</p>
-        <img src="images/4.jpeg" alt="Middle" width="90%"/>
+        <img src="assets/images/4.jpeg" alt="Middle" width="90%"/>
         </div>
     <div style="flex: 33.33%; text-align: center;">
         <p>Log in and Welcome</p>
-        <img src="images/51.jpeg" alt="Middle" width="90%"/>
-        <img src="images/5.jpeg" alt="Middle" width="90%"/>
+        <img src="assets/images/51.jpeg" alt="Middle" width="90%"/>
+        <img src="assets/images/5.jpeg" alt="Middle" width="90%"/>
         </div>
 </div>
 ## How to Use This Repository:
@@ -53,7 +53,7 @@ Contributions are encouraged! Whether it's bug fixes, new features, or improveme
         
         cd kittycaraApp
 
-- lunch : 
+- start : 
 
         npm install or yarn
         npx expo start
