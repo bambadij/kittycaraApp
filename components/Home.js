@@ -14,7 +14,7 @@ const OnboardingScreen = ({ navigation }) => {
   const loadFonts = async () => {
     await Font.loadAsync({ 
       'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'), // Assurez-vous que le chemin est correct
-      'PlaypenSans': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
+      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
     });
     setFontsLoaded(true);
   };

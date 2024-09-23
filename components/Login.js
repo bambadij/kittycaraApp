@@ -18,7 +18,7 @@ const Login = ({ navigation }) => {
   const loadFonts = async () => {
     await Font.loadAsync({
       'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'), // Assurez-vous que le chemin est correct
-      'PlaypenSans': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
+      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
     });
     setFontsLoaded(true);
   };
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
     marginBottom: 20,
     color:'#353b8f',
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
   },
   form: {
     width: '100%',
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 1, // Ajoutez ceci
     borderColor:'#353b8f',
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
 
   },
   passwordContainer: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 1, // Ajoutez ceci
     borderColor:'#353b8f',
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
   },
   logo: {
     width: 100, // Set the desired width of the logo
@@ -158,27 +158,27 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignContent:'center',
     alignItems:'center',
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
 
   },
   buttonText: {
     color: '#353b8f',
     fontSize: 18,
     // fontWeight: 'bold',
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
   },
   forgotText: {
     color: '#353b8f',
     fontSize: 16,
     alignSelf: 'flex-end',
     marginTop: 10,
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
   },
   registerText: {
     marginTop: 20,
     fontSize: 16,
     // fontWeight: 'bold',
-     fontFamily: 'Playpen-Sans'
+     fontFamily: 'PlaypenSans'
   },
 });
 

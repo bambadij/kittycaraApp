@@ -21,7 +21,7 @@ const OldSelection = ({ navigation }) => {
   const loadFonts = async () => {
     await Font.loadAsync({ 
       'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'), // Assurez-vous que le chemin est correct
-      'PlaypenSans': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
+      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
     });
     setFontsLoaded(true);
   };
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily: 'Playpen-Sans', // Assurez-vous que cette police est bien chargée
+    fontFamily: 'PlaypenSans', // Assurez-vous que cette police est bien chargée
     color: '#353b8f',
     marginBottom: 50,
   },
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingLeft: 15,
     fontSize: 18,
-    fontFamily: 'Playpen-Sans', // Assurez-vous que cette police est bien chargée
+    fontFamily: 'PlaypenSans', // Assurez-vous que cette police est bien chargée
     marginBottom: 20,
   },
   nextButton: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   nextButtonText: {
     fontSize: 18,
-    fontFamily: 'Playpen-Sans', // Assurez-vous que cette police est bien chargée
+    fontFamily: 'PlaypenSans', // Assurez-vous que cette police est bien chargée
     color: '#fff',
   },
 });
