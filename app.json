@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "KittycaraAI",
+    "slug": "KittycaraAI",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/cat.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/cat.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#353b8f"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.kansafrica.FastApiSepsi"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7b20f761-ad0d-45be-a118-8b700238d18c"
+      }
+    }
+  }
+}
