@@ -11,18 +11,18 @@ Features
 <div style="display: flex; align-items: center;">
     <div style="flex: 33.33%; text-align: center;">
         <p>Screenshots home</p>
-        <img src="assets/images/10.jpeg" alt="Top" width="90%"/>
-        <img src="assets/images/11.jpeg" alt="Top" width="90%"/>
-        <img src="assets/images2.jpeg" alt="Top" width="90%"/>
+        <img src="assets/images/10.jpeg" alt="Top" width="50%"/>
+        <img src="assets/images/11.jpeg" alt="Top" width="50%"/>
+        <img src="assets/images2.jpeg" alt="Top" width="50%"/>
     </div>
     <div style="flex: 33.33%; text-align: center;">
         <p>Sign up</p>
-        <img src="assets/images/4.jpeg" alt="Middle" width="90%"/>
+        <img src="assets/images/4.jpeg" alt="Middle" width="50%"/>
         </div>
     <div style="flex: 33.33%; text-align: center;">
         <p>Log in and Welcome</p>
-        <img src="assets/images/51.jpeg" alt="Middle" width="90%"/>
-        <img src="assets/images/5.jpeg" alt="Middle" width="90%"/>
+        <img src="assets/images/51.jpeg" alt="Middle" width="50%"/>
+        <img src="assets/images/5.jpeg" alt="Middle" width="50%"/>
         </div>
 </div>
 ## How to Use This Repository:
