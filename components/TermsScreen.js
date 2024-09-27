@@ -3,11 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { Checkbox } from 'react-native-paper';
 // import * as Linking from 'expo-linking';
 import * as Font from 'expo-font';
+import { publicRequest } from '../RequestMethods';
 
-const TermsScreen = ({navigation}) => {
+const TermsScreen = ({ navigation, route })  => {
+  const { userId } = route.params;
+  
   const [checkedTerms, setCheckedTerms] = useState(false);
   const [checkedPrivacy, setCheckedPrivacy] = useState(false);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const loadFonts = async () => {
     await Font.loadAsync({ 
       'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'), // Assurez-vous que le chemin est correct
@@ -15,17 +20,41 @@ const TermsScreen = ({navigation}) => {
     });
     setFontsLoaded(true);
   };
-
   useEffect(() => {
     loadFonts();
   }, []);
+  const onSubmitTerms = async () => {
+    setIsLoading(true);
+
+    try {
+      // Appel à l'API pour mettre à jour le profil
+      const response = await publicRequest.post(`update_profile/${userId}`, {
+        terme_condition: checkedTerms,
+        agree: checkedPrivacy
+      });
+      console.warn('update',response);
+      
+      if (response.data.success) {
+        // Navigation vers l'écran suivant après la mise à jour
+        const userId1 = response.data.data;
+        // console.warn('User registered successfully', response.data);
+        navigation.navigate('NameSelection',{userId1});
+      } else {
+        console.error('Erreur de mise à jour du profil');
+      }
+    } catch (err) {
+      console.error('Erreur:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Confirm you're ready</Text>
       
       <Text style={styles.instructions}>
-        Please accept the <Text style={styles.link} onPress={() => navigation.navigate('https://example.com/terms')}>Terms of Service</Text>{' '}
-        and <Text style={styles.link} onPress={() => navigation.navigate('https://example.com/privacy')}>Privacy Policy</Text>. Please note:
+        Please accept the <Text style={styles.link} onPress={() => navigation.navigate('https://kittycara.kansafrica.com/terme')}>Terms of Service</Text>{' '}
+        and <Text style={styles.link} onPress={() => navigation.navigate('https://kittycara.kansafrica.com/agree')}>Privacy Policy</Text>. Please note:
       </Text>
 
       <Text style={styles.bullet}>
@@ -55,7 +84,7 @@ const TermsScreen = ({navigation}) => {
         />
         <Text style={styles.checkboxLabel}>I agree for my health information to be used for the interview.</Text>
       </View>
-      <TouchableOpacity style={styles.nextButton} onPress={() => {navigation.navigate('GenderSelection')}}>
+      <TouchableOpacity style={styles.nextButton} onPress={onSubmitTerms} disabled={isLoading}>
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -86,7 +115,7 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#353b8f',
-    textDecorationLine: 'underline',
+    // textDecorationLine: 'underline',
   },
   bullet: {
     fontSize: 11,

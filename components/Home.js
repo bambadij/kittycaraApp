@@ -10,11 +10,26 @@ const OnboardingScreen = ({ navigation }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const scrollViewRef = useRef(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      // 'Poppins-Bold': require('../assets/fonts/Playpen_Sans/static/Poppins-Bold-Bold.ttf'), // Assurez-vous que le chemin est correct
+      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
+    });
+    setFontsLoaded(true);
+  };
+ 
+  useEffect(() => {
+    loadFonts();
+  }, []);
  
   const pages = [
     {
       image: require('../assets/kittyhome3.png'),
+      title: ' ',
+      description: '',
+    },
+    {
+      image: require('../assets/kittyhome2.png'),
       title: 'Let\'s get started! ',
       description: 'Confused by your menstrual symptoms? Kittycara will offer you immediate insights and practical advice taillored to your unique health needs.',
     },
@@ -29,10 +44,11 @@ const OnboardingScreen = ({ navigation }) => {
       description: 'Uncover what may be causing your symptoms.',
     },
     {
-      image: require('../assets/cara/cararo.png'),
+      image: require('../assets/kittyhome.png'),
       title: "Choose what to do next",
       description: 'receive immediate insights and advice powered by cutting edge AI technology.',
     },
+    
   ];
 
   const handleScroll = (event) => {
@@ -49,17 +65,7 @@ const OnboardingScreen = ({ navigation }) => {
       navigation.navigate('Login');
     }
   };
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      // 'Poppins-Bold': require('../assets/fonts/Playpen_Sans/static/Poppins-Bold-Bold.ttf'), // Assurez-vous que le chemin est correct
-      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
-    });
-    setFontsLoaded(true);
-  };
- 
-  useEffect(() => {
-    loadFonts();
-  }, []);
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -76,9 +82,9 @@ const OnboardingScreen = ({ navigation }) => {
             <Image source={page.image} style={styles.stepImage} resizeMode="cover" />
             </>
             <>
-            <Text style={styles.title}>{page.title}</Text>
+            <Text style={styles.title1}>{page.title}</Text>
             </>
-            <Text style={styles.description}>{page.description}</Text>
+            <Text style={styles.description1}>{page.description}</Text>
             
             {index === pages.length - 1 && (
               <View style={styles.iconContainer}>
@@ -102,6 +108,7 @@ const OnboardingScreen = ({ navigation }) => {
           />
         ))}
       </View>
+      {currentPage !== 0 && (        <>
       <TouchableOpacity  onPress={() => navigation.navigate('Register')} style={styles.nextButton}>
         <Text style={styles.nextButtonText}>sign up
           {/* {currentPage === pages.length - 1 ? 'Get Started' : 'sign up'} */}
@@ -112,6 +119,8 @@ const OnboardingScreen = ({ navigation }) => {
           {/* {currentPage === pages.length - 1 ? 'Get Started' : 'log in'} */}
         </Text>
       </TouchableOpacity>
+      </>
+       )}
     </SafeAreaView>
   );
 };
@@ -132,16 +141,16 @@ const styles = {
     height: width * 0.8,
     // marginBottom: 1,
   },
-  title: {
+  title1: {
     fontSize: 20,
     fontFamily: 'Poppins-Bold',
-    marginBottom: 6,
-    marginTop:-25,
+    marginBottom: 2,
+    marginTop:-2,
     textAlign: 'center',
     color:'#FFF',
 
   },
-  description: {
+  description1: {
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 20,
@@ -153,7 +162,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
-    marginTop: 20,
+    marginTop: 17,
   },
   paginationContainer: {
     flexDirection: 'row',

@@ -15,6 +15,7 @@ import * as Font from 'expo-font';
 import GenderSelection from './components/GenderSelection';
 import OldSelection from './components/OldSelection';
 import WelcomeScreen from './components/WelcomeScreen';
+import NameSelection from './components/NameSelection';
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,11 @@ export default function App() {
             options={{ title: '', animation: 'slide_from_bottom' }}
             name="WelcomeScreen"
             component={WelcomeScreen}
+          />
+           <Stack.Screen
+            options={{ title: '', animation: 'slide_from_bottom' }}
+            name="NameSelection"
+            component={NameSelection}
           />
         </Stack.Navigator>
         <Toast/>

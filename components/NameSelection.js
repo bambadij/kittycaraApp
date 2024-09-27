@@ -3,20 +3,23 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import * as Font from 'expo-font';
 import { publicRequest } from '../RequestMethods';
 
-const OldSelection = ({ navigation,route }) => {
+const NameSelection = ({ navigation,route }) => {
   const { userId1 } = route.params;
+  console.log('user',userId1);
+  
+  const [name, setname] = useState('');
+  const [isNameValid, setIsNameValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [age, setAge] = useState('');
-  const [isAgeValid, setIsAgeValid] = useState(false);
 
-  const handleAgeChange = (value) => {
-    const numericValue = parseInt(value, 10);
-    if (!isNaN(numericValue) && numericValue > 0) {
-      setAge(value);
-      setIsAgeValid(true);
-    } else {
-      setAge(value);
-      setIsAgeValid(false);
+  const handleNameChange = (value) => {
+    setname(value);
+    setIsNameValid(value.trim().length > 0); // Validation: Vérifie si le nom n'est pas vide
+  };
+
+  const handleNextPress = () => {
+    if (isNameValid) {
+      console.log('Name entered:', name);
+      navigation.navigate('GenderSelection'); // Remplacez avec votre écran suivant
     }
   };
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -32,17 +35,15 @@ const OldSelection = ({ navigation,route }) => {
   useEffect(() => {
     loadFonts();
   }, []);
-  const onSubmitAge = async () => {
-    if (isAgeValid) {
+  const onSubmitName = async () => {
+    if (isNameValid) {
       setIsLoading(true);
     }
 
     try {
       // Appel à l'API pour mettre à jour le profil
       const response = await publicRequest.post(`update_profile/${userId1.id}`, {
-        age:age,
-        sex:userId1.selectedGender,
-        name: userId1.name,
+        name: name,
         terme_condition: userId1.terme_condition,
         agree: userId1.agree
       });
@@ -52,39 +53,33 @@ const OldSelection = ({ navigation,route }) => {
         // Navigation vers l'écran suivant après la mise à jour
         const userId = response.data.data;
         console.warn('User registered successfully', response.data);
-        navigation.navigate('WelcomeScreen',{userId});
+        navigation.navigate('GenderSelection',{userId});
       } else {
         console.error('Erreur de mise à jour du profil');
       }
     } catch (err) {
-      console.error('Erreur:', err);
+      console.error('Erreur:', err.response);
     } finally {
       setIsLoading(false);
-    }
-  };
-  const handleNextPress = () => {
-    if (isAgeValid) {
-      console.log('Age entered:', age);
-      navigation.navigate('Login'); // Remplacez avec votre écran suivant
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>How old are you?</Text>
+      <Text style={styles.title}>What your name?</Text>
       <TextInput
         style={styles.input}
-        placeholder="years old"
-        keyboardType="numeric"
-        value={age}
-        onChangeText={handleAgeChange}
+        placeholder="your name"
+        autoCapitalize="none"
+        value={name}
+        onChangeText={handleNameChange}
       />
 
       {/* Bouton "Next" */}
       <TouchableOpacity
-        style={[styles.nextButton, isAgeValid ? styles.activeButton : styles.inactiveButton]}
-        onPress={onSubmitAge}
-        disabled={!isAgeValid}
+        style={[styles.nextButton, isNameValid ? styles.activeButton : styles.inactiveButton]}
+        onPress={onSubmitName}
+        disabled={!isNameValid}
       >
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
@@ -137,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OldSelection;
+export default NameSelection;

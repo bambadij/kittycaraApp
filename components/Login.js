@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="username"
+          placeholder="email ou phone"
           selectionColor="#a9a9a9"
           autoCapitalize="none"
           underlineColorAndroid="transparent"
@@ -48,7 +48,7 @@ const Login = ({ navigation }) => {
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
-            placeholder="Password"
+            placeholder="Passcode"
             selectionColor="#a9a9a9"
             underlineColorAndroid="transparent"
             color="black"

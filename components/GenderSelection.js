@@ -1,10 +1,14 @@
 import React, { useState ,useRef,useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
+import { publicRequest } from '../RequestMethods';
 
-const GenderSelection = ({ navigation }) => {
+const GenderSelection = ({ navigation ,route}) => {
+  const { userId } = route.params;
+
   const [selectedGender, setSelectedGender] = useState(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleGenderSelect = (gender) => {
     setSelectedGender(gender);
@@ -28,7 +32,34 @@ const GenderSelection = ({ navigation }) => {
       navigation.navigate('OldSelection'); // Si vous utilisez react-navigation
     }
   };
+  const onSubmitGender = async () => {
+    setIsLoading(true);
+   
 
+    try {
+      // Appel à l'API pour mettre à jour le profil
+      const response = await publicRequest.post(`update_profile/${userId.id}`, {
+        sex:selectedGender,
+        name: userId.name,
+        terme_condition: userId.terme_condition,
+        agree: userId.agree
+      });
+      console.warn('update',response);
+      
+      if (response.data.success) {
+        // Navigation vers l'écran suivant après la mise à jour
+        const userId = response.data.data;
+        // console.warn('User registered successfully', response.data);
+        navigation.navigate('OldSelection',{userId});
+      } else {
+        console.error('Erreur de mise à jour du profil');
+      }
+    } catch (err) {
+      console.error('Erreur:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>What is your sex?</Text>
@@ -54,7 +85,7 @@ const GenderSelection = ({ navigation }) => {
       {/* Bouton "Next" */}
       <TouchableOpacity
         style={[styles.nextButton, selectedGender ? styles.activeButton : styles.inactiveButton]}
-        onPress={handleNextPress}
+        onPress={onSubmitGender}
         disabled={!selectedGender} // Désactive le bouton si aucun sexe n'est sélectionné
       >
         <Text style={styles.nextButtonText}>Next</Text>

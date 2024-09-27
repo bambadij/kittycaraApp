@@ -16,8 +16,8 @@ Features
     </div>
     <div style="flex: 33.33%; text-align: center;">
         <p>Sign up</p>
-        <img src="assets/images/4.jpeg" alt="Middle" width="40%"/>
         <img src="assets/images/2.jpeg" alt="Top" width="40%"/>
+        <img src="assets/images/4.jpeg" alt="Middle" width="40%"/>
         </div>
     <div style="flex: 33.33%; text-align: center;">
         <p>Log in and Welcome</p>
@@ -25,7 +25,8 @@ Features
         <img src="assets/images/5.jpeg" alt="Middle" width="40%"/>
         </div>
 </div>
-## How to Use This Repository:
+
+# How to Use This Repository:
 
 - Clone this repository to your local machine.
 - npm install.
@@ -35,7 +36,7 @@ Explore code examples for an in-depth understanding of each development phase.
 
 ## Prerequisites:
 ## Getting Started
-Prerequisites
+
 To run this project, you need to have the following installed:
 
 Node.js

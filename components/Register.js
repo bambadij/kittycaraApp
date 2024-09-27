@@ -10,49 +10,101 @@ import {
   Dimensions,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Checkbox } from 'react-native-paper';
 import * as Font from 'expo-font';
+import {publicRequest, url} from '../RequestMethods';
 
-const Register = ({ navigation, onSwitch }) => {
+const Register = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [name, setName] = useState('');
+  const [name, setName] = useState(''); // email or phone
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [error, setError] = useState('');
-  const [checkedTerms, setCheckedTerms] = useState(false);
-  const [checkedPrivacy, setCheckedPrivacy] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const loadFonts = async () => {
     await Font.loadAsync({ 
-      'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'), // Assurez-vous que le chemin est correct
-      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'), // Assurez-vous que le chemin est correct
+      'PlaypenSans': require('../assets/fonts/Playpen_Sans/PlaypenSans-VariableFont_wght.ttf'),
+      'Poppins-Bold': require('../assets/fonts/SofadiOne-Regular.ttf'),
     });
-    setFontsLoaded(true);
   };
 
   useEffect(() => {
     loadFonts();
   }, []);
+
   const togglePasswordConfirmVisibility = () => {
     setShowPasswordConfirm(!showPasswordConfirm);
   };
 
   const onSubmitFormHandler = async () => {
-    // Votre logique d'inscription existante ici
-    if (!checkedTerms || !checkedPrivacy) {
-      setError("Vous devez accepter les termes et conditions pour continuer.");
+    setIsLoading(true);
+
+    // Check for password match
+    if (password !== passwordConfirm) {
+      setError("Passcode do not match.");
+      setIsLoading(false);
       return;
     }
-    setError(''); // Réinitialise l'erreur si tout est en règle
-    // Autre logique d'inscription...
 
+    // Check if email/phone and password are valid
+    if (!name || password.length < 6) {
+      setError("Please enter a valid username and passcode of at least 6 characters.");
+      setIsLoading(false);
+      return;
+    }
+
+    setError(''); // Reset error
+
+    try {
+      // Call the register API
+      const response = await publicRequest.post('register', {
+        phone: name.includes('@') ? '' : name,
+        email: name.includes('@') ? name : '',
+        password: password
+      });
+      console.warn('response',response);
+      
+      if (response.data.success) {
+        // Navigate to TermsScreen after successful registration
+        const userId = response.data.data.user.id;
+        navigation.navigate('TermsScreen', { userId });
+      } else {
+        // Check if there is an error related to the email
+        if (response.data.error) {
+          let errorMessage = '';
+      
+          // Vérifier les erreurs pour l'email
+          if (response.data.error.email) {
+              errorMessage += response.data.error.email[0] + ' '; // Récupère le premier message d'erreur pour l'email
+          }
+      
+          // Vérifier les erreurs pour le téléphone
+          if (response.data.error.phone) {
+              errorMessage += response.data.error.phone[0] + ' '; // Récupère le premier message d'erreur pour le téléphone
+          }
+      
+          // Si des messages d'erreur ont été accumulés, les définir
+          if (errorMessage) {
+              setError(errorMessage.trim()); // Met à jour l'état avec les messages d'erreur concaténés
+          }
+      }
+       else {
+          // console.warn('res error',response.data.error);
+          setError(response.data.error);
+          // setError('Registration failed.');
+        }
+      }
+    } catch (err) {
+      console.error('error', err);
+      setError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -62,26 +114,21 @@ const Register = ({ navigation, onSwitch }) => {
         Sign up with a username and passcode
       </Text>
       <View style={styles.form}>
-      <Text style={styles.registerText}>
-        username
-      </Text>
+        <Text style={styles.registerText}>Username</Text>
         <TextInput
           style={styles.input}
-          placeholder="type username"
+          placeholder="Type email or phone"
           autoCompleteType="name"
           value={name}
           onChangeText={setName}
-          secureTextEntry={true}
-
+          autoCapitalize="none"
         />
-        <Text style={styles.registerText}>
-          username must be at leaast 6 characters
-        </Text>
+
+        <Text style={styles.registerText}>Passcode (min. 6 characters)</Text>
         <View style={styles.passwordContainer}>
-        
           <TextInput
             style={styles.passwordInput}
-            placeholder="set a passcode"
+            placeholder="Set a passcode"
             secureTextEntry={!showPassword}
             value={password}
             onChangeText={setPassword}
@@ -90,13 +137,12 @@ const Register = ({ navigation, onSwitch }) => {
             <MaterialIcons name={showPassword ? "visibility-off" : "visibility"} size={24} color="#6e6e6e" />
           </TouchableOpacity>
         </View>
-        <Text style={styles.registerText}>
-          username must be at leaast 6 characters
-        </Text>
+
+        <Text style={styles.registerText}>Confirm Passcode</Text>
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
-            placeholder="confirm passcode"
+            placeholder="Confirm passcode"
             secureTextEntry={!showPasswordConfirm}
             value={passwordConfirm}
             onChangeText={setPasswordConfirm}
@@ -105,28 +151,33 @@ const Register = ({ navigation, onSwitch }) => {
             <MaterialIcons name={showPasswordConfirm ? "visibility-off" : "visibility"} size={24} color="#6e6e6e" />
           </TouchableOpacity>
         </View>
+
+        {/* Display error message if any */}
         {error ? <Text style={styles.error}>{error}</Text> : null}
+
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: '#DADAE6' ,borderColor:'#353b8f', fontFamily: 'Poppins-Bold'}]}
-          onPress={() => navigation.navigate('TermsScreen')}
-          // disabled={isLoading || !checkedTerms || !checkedPrivacy}
+          style={[styles.button, { backgroundColor: '#DADAE6', borderColor: '#353b8f' }]}
+          onPress={onSubmitFormHandler}
+          disabled={isLoading}
         >
           {isLoading ? (
             <ActivityIndicator color="#353b8f" />
           ) : (
-            <Text style={styles.buttonText}>sign up</Text>
+            <Text style={styles.buttonText}>Sign Up</Text>
           )}
         </TouchableOpacity>
-        <TouchableOpacity  onPress={() => navigation.navigate('Login')}>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.footerText}>
-            <Text style={{ color: '#000',    fontFamily: 'Poppins-Bold' }}>Already have an account? </Text>
-            <Text style={{ color: 'red', fontFamily: 'Poppins-Bold' }}>Sign In</Text>
+            <Text style={{ color: '#000', fontFamily: 'Poppins-Bold' }}>Already have an account? </Text>
+            <Text style={{ color: 'red', fontFamily: 'Poppins-Bold' }}>log in</Text>
           </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
+
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
