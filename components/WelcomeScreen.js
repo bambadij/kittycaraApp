@@ -2,9 +2,11 @@ import React, { useState, useRef,useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as Font from 'expo-font';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = ({ navigation,route }) => {
   // Charger les polices personnalisées si nécessaire
+  const {userId} =route.params
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const loadFonts = async () => {
@@ -14,10 +16,21 @@ const WelcomeScreen = ({ navigation }) => {
     });
     setFontsLoaded(true);
   }; 
-
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('authToken');
+    await AsyncStorage.removeItem('userName');
+    navigation.navigate('Login'); // Navigate back to the login screen
+  };
   useEffect(() => {
     loadFonts();
-  }, []);
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   return (
     <View style={styles.background}>
       <View style={styles.container}>
@@ -29,7 +42,7 @@ const WelcomeScreen = ({ navigation }) => {
             style={styles.logo}
           />
           {/* Titre */}
-          <Text style={styles.title}>Hi, {"\n"} I'm kittycara</Text>
+          <Text style={styles.title}>Hi {userId?.name}, {"\n"} I'm kittycara</Text>
         </View>
 
         <Text style={styles.description}>
@@ -52,12 +65,12 @@ const WelcomeScreen = ({ navigation }) => {
         {/* Bouton Start Interview */}
         <TouchableOpacity 
           style={styles.button} 
-          onPress={() => navigation.navigate('ChatPage')}
+          onPress={() => navigation.navigate('ChatPage',{userId} )}
         >
           <Text style={styles.buttonText}>start interview</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View> 
   );
 };
 
@@ -79,9 +92,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logo: {
-    width: 60,
-    height: 125,
-    marginRight: 10, // Ajouter un espace entre le logo et le titre
+    width: 100,
+    height: 140,
+    // marginRight: -3, // Ajouter un espace entre le logo et le titre
   },
   title: {
     fontFamily: 'Poppins-Bold',
@@ -126,6 +139,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
     fontSize: 16,
     color: '#5E5CE6',
+  },
+  logoutButton: {
+    marginRight: 15,
+  },
+  logoutText: {
+    color: '#D0C7F6', // Change color as needed
+    fontWeight: 'bold',
   },
 });
 

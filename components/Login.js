@@ -6,14 +6,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Dimensions,
+  Dimensions,Alert,
   Image, // <-- Import the Image component
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
+import { publicRequest } from '../RequestMethods';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [emailOrPhone, setEmailOrPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -26,23 +34,88 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     loadFonts();
   }, []);
+  // Fonction de gestion du login
+  const handleLogin = async () => {
+    if (!emailOrPhone || !password) {
+      setError('Please enter both email/phone and password.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await publicRequest.post('login', {
+        phone: emailOrPhone.includes('@') ? '' : emailOrPhone,
+        email: emailOrPhone.includes('@') ? emailOrPhone : '',
+        password: password
+      });
+        console.warn('log',response.data.data)
+      // Vérification de la réponse de l'API
+      if (response.data.success) {
+        // Redirection après succès
+        setSuccess('Success Logged in successfully!');
+        const user = response.data.data;
+        // Stocker le token dans AsyncStorage
+        await AsyncStorage.setItem('authToken', response.data.token);
+
+        // Stocker les autres informations de l'utilisateur
+        await AsyncStorage.setItem('userName', user.name || '');
+        await AsyncStorage.setItem('userAge', user.age ? user.age.toString() : '');
+        await AsyncStorage.setItem('userSex', user.sex || '');
+        await AsyncStorage.setItem('userEmail', user.email || '');
+        await AsyncStorage.setItem('userPhone', user.phone || '');
+        if (!user.terme_condition) {
+          navigation.navigate('TermsScreen', { userId: user.id });
+        }else if(!user.agree){
+          navigation.navigate('TermsScreen', { userId: user.id });
+        } else if (!user.age) {
+          navigation.navigate('OldSelection', { userId: user });
+        } else if (!user.sex) {
+          navigation.navigate('GenderSelection', { userId: user });
+        } else if (!user.name) {
+          navigation.navigate('NameSelection', { userId: user });
+        }else{
+          navigation.navigate('WelcomeScreen', { userId: user });
+
+        } 
+      } else {
+        console.log('res error',response);
+        
+        setError(response.data.message || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      console.log('Error',err)
+      setError('An error occurred. Please check your network connection and try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+   // Pour afficher/masquer le mot de passe
+   const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  if (!fontsLoaded) {
+    return null; // Afficher un loader si les fonts ne sont pas chargées
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        {/* <Image 
-        source={require('../assets/caty2.jpeg')} // Replace with the actual path of your logo image
-        style={styles.logo}
-      /> */}
+      {success ? <Text style={styles.success}>{success}</Text> : null}
+
       <Text style={styles.title}>Log in</Text>
       <Text style={styles.description}>
-          Please Log in with the details you originally signed up with
+        Please log in with the details you originally signed up with
       </Text>
+
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="email ou phone"
+          placeholder="Email or Phone"
           selectionColor="#a9a9a9"
           autoCapitalize="none"
           underlineColorAndroid="transparent"
+          value={emailOrPhone}
+          onChangeText={(text) => setEmailOrPhone(text)}
           color="black"
         />
         <View style={styles.passwordContainer}>
@@ -51,33 +124,42 @@ const Login = ({ navigation }) => {
             placeholder="Passcode"
             selectionColor="#a9a9a9"
             underlineColorAndroid="transparent"
-            color="black"
-            secureTextEntry={true}
+            secureTextEntry={!showPassword}
             autoCapitalize="none"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            color="black"
           />
-          <TouchableOpacity style={styles.eyeIcon}>
-            <MaterialIcons name="visibility-off" size={24} color="#333" />
+          <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
+            <MaterialIcons name={showPassword ? 'visibility' : 'visibility-off'} size={24} color="#333" />
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} style={[styles.button, { backgroundColor: '#DADAE6',borderColor:'#353b8f' }]}>
-          <Text style={styles.buttonText}>log in</Text>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+        <TouchableOpacity
+          onPress={handleLogin}
+          style={[styles.button, { backgroundColor: '#DADAE6', borderColor: '#353b8f' }]}
+          disabled={loading}
+        >
+          <Text style={styles.buttonText}>{loading ? 'Logging in...' : 'Log in'}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
-          <Text style={styles.forgotText}>forgot passcode</Text>
+          <Text style={styles.forgotText}>Forgot passcode?</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <Text style={styles.registerText}>
             <Text style={{ color: '#000' }}>Don't have an account? </Text>
-            <Text style={{ color: 'red' }}>Sign up </Text>
+            <Text style={{ color: 'red' }}>Sign up</Text>
           </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
+
+
+   
 
 const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -179,6 +261,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     // fontWeight: 'bold',
      fontFamily: 'PlaypenSans'
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
+    fontSize: 11,
+  },
+  success: {
+    color: 'green',
+    marginBottom: 10,
+    fontSize: 11,
   },
 });
 

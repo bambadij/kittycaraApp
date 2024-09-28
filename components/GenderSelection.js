@@ -48,9 +48,9 @@ const GenderSelection = ({ navigation ,route}) => {
       
       if (response.data.success) {
         // Navigation vers l'écran suivant après la mise à jour
-        const userId = response.data.data;
-        // console.warn('User registered successfully', response.data);
-        navigation.navigate('OldSelection',{userId});
+        const userId1 = response.data.data;
+        console.warn('User registered',userId1);
+        navigation.navigate('OldSelection',{userId1});
       } else {
         console.error('Erreur de mise à jour du profil');
       }

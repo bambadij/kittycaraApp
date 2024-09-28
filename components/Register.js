@@ -67,7 +67,7 @@ const Register = ({ navigation }) => {
         email: name.includes('@') ? name : '',
         password: password
       });
-      console.warn('response',response);
+      // console.warn('response',response);
       
       if (response.data.success) {
         // Navigate to TermsScreen after successful registration
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
-    fontSize: 16,
+    fontSize: 11,
   },
 });
 

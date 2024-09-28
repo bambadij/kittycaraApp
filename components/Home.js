@@ -18,9 +18,7 @@ const OnboardingScreen = ({ navigation }) => {
     setFontsLoaded(true);
   };
  
-  useEffect(() => {
-    loadFonts();
-  }, []);
+ 
  
   const pages = [
     {
@@ -65,6 +63,9 @@ const OnboardingScreen = ({ navigation }) => {
       navigation.navigate('Login');
     }
   };
+  useEffect(() => {
+    loadFonts();
+  }, []);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -78,14 +79,11 @@ const OnboardingScreen = ({ navigation }) => {
       >
         {pages.map((page, index) => (
           <View key={index} style={styles.page}>
-            <>
             <Image source={page.image} style={styles.stepImage} resizeMode="cover" />
-            </>
-            <>
             <Text style={styles.title1}>{page.title}</Text>
-            </>
+            <>
             <Text style={styles.description1}>{page.description}</Text>
-            
+            </>
             {index === pages.length - 1 && (
               <View style={styles.iconContainer}>
                 <FontAwesome name="heartbeat" size={30} color="#353b8f" />
@@ -168,7 +166,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 17,
   },
   paginationDot: {
     width: 10, 

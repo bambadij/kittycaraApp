@@ -5,6 +5,8 @@ import { publicRequest } from '../RequestMethods';
 
 const OldSelection = ({ navigation,route }) => {
   const { userId1 } = route.params;
+  console.warn('ok',userId1);
+  
   const [isLoading, setIsLoading] = useState(false);
   const [age, setAge] = useState('');
   const [isAgeValid, setIsAgeValid] = useState(false);
@@ -46,12 +48,12 @@ const OldSelection = ({ navigation,route }) => {
         terme_condition: userId1.terme_condition,
         agree: userId1.agree
       });
-      console.warn('update',response);
+      // console.warn('update',response);
       
       if (response.data.success) {
         // Navigation vers l'écran suivant après la mise à jour
         const userId = response.data.data;
-        console.warn('User registered successfully', response.data);
+        console.warn('User regi', response.data);
         navigation.navigate('WelcomeScreen',{userId});
       } else {
         console.error('Erreur de mise à jour du profil');
