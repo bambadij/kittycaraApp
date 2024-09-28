@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, FlatList, Image } 
 import * as Font from 'expo-font';
 import axios from 'axios';
 import { ActivityIndicator } from 'react-native-paper';
+import { huggingface_url, publicRequest } from '../RequestMethods';
 
 const ChatPage = ({navigation,route}) => {
   const {userId} =route.params
@@ -43,7 +44,7 @@ const ChatPage = ({navigation,route}) => {
 
     try {
       // Send the message to your API
-      const response = await axios.post('https://bambadij-apikittycara.hf.space/analyze', {
+      const response = await huggingface_url.post('/analyze', {
         message: newMessage,
       });
 
